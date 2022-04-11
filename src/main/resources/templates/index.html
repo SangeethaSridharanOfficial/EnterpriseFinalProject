@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Library Management</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Library Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="#">Pricing</a>
+                </div>
+                <div class="navbar-nav ml-auto">
+                    <span class="navbar-text " sec:authentication="principal.username"> Unknown User</span>
+                    <a class="nav-link active" sec:authorize="isAuthenticated()" th:href="@{/login?logout}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Books</h1>
+        <div th:switch="${role}">
+            <p th:case="admin">
+                <a class="nav-link" th:href="@{/books/newBook}">Add Books</a>
+            </p>
+        </div>
+
+        <table border="1" cellpadding="10">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th>Description</th>
+                <th>No Of Copies</th>
+                <th>Category</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.name}">Name</td>
+                <td th:text="${book.author}">Author</td>
+                <td th:text="${book.price}">Price</td>
+                <td th:text="${book.description}">Description</td>
+                <td th:text="${book.no_of_copies}">No Of Copies</td>
+                <td th:text="${book.category}">Category</td>
+                <td th:text="${book.status}">Status</td>
+                <td>
+                    <div th:switch="${role}">
+                        <span th:case="admin">
+                            <a th:href="@{'books/edit/' + ${book.id}}">Edit</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a th:href="@{'books/delete?id=' + ${book.id}}">Delete</a>
+                        </span>
+                    </div>
+                    <a th:href="@{'/edit/' + ${book.id}}">Buy</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

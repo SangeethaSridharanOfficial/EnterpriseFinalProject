@@ -1,4 +1,4 @@
-package com.graphql_springboot.utils;
+package com.project.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -3,7 +3,6 @@ ext {
 
             lombok                       : '1.18.12',
             JUnit                        : '4.13',
-            restEasy                     : '4.7.0.Final',
             graphQL                      :  '11.0.0'
 
     ]
@@ -14,9 +13,6 @@ ext {
             spring              : ["org.springframework.boot:spring-boot-starter-data-rest",
                                    "org.springframework.boot:spring-boot-starter-data-redis",
                                    "org.springframework.boot:spring-boot-starter-web"],
-            restEasy            : "org.jboss.resteasy:resteasy-spring-boot-starter:${libsVersion.restEasy}",
-            graphQL             : "com.graphql-java-kickstart:graphql-spring-boot-starter:${libsVersion.graphQL}",
-            graphQLPlayground  :  "com.graphql-java-kickstart:playground-spring-boot-starter:${libsVersion.graphQL}",
 
 
             /// testing

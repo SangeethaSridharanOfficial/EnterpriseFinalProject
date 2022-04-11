@@ -1,4 +1,0 @@
-type Query {
-    doSomething: String
-    doNothing: String
-}

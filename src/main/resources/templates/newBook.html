@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>Add Book</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<div align="center">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Library Management</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="#">Pricing</a>
+                </div>
+                <div class="navbar-nav ml-auto">
+                    <span class="navbar-text " sec:authentication="principal.username"> Unknown User</span>
+                    <a class="nav-link active" sec:authorize="isAuthenticated()" th:href="@{/login?logout}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <h1>Add New Book</h1>
+    <br />
+    <form action="#" th:action="@{/books/add}" th:object="${book}"
+          method="post">
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Book Name:</td>
+                <td><input type="text" th:field="*{name}" /></td>
+            </tr>
+            <tr>
+                <td>Author:</td>
+                <td><input type="text" th:field="*{author}" /></td>
+            </tr>
+            <tr>
+                <td>Price:</td>
+                <td><input type="number" th:field="*{price}" /></td>
+            </tr>
+            <tr>
+                <td>Description:</td>
+                <td><input type="text" th:field="*{description}" /></td>
+            </tr>
+            <tr>
+                <td>No Of Copies:</td>
+                <td><input type="number" th:field="*{no_of_copies}" /></td>
+            </tr>
+            <tr>
+                <td>Category:</td>
+                <td><input type="text" th:field="*{category}" /></td>
+            </tr>
+            <input type="hidden" name="status" th:value="available"/>
+            <tr>
+                <td colspan="2"><button type="submit">Add</button> </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>
