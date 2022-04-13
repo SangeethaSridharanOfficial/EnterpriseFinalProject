@@ -3,12 +3,14 @@ package com.project.endpoints;
 import com.project.entities.Book;
 import com.project.repository.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/books")
@@ -25,8 +27,26 @@ public class BookEndPoint {
     }
 
     @PostMapping("/add")
-    public String addBook(@ModelAttribute("book") Book book){
+    public String addBook(@ModelAttribute("book") Book book) {
         bookRepo.save(book);
         return "redirect:/";
     }
+
+    //---------------Method to Update the Book------------
+    @GetMapping(value ="/edit/{id}")
+    public ModelAndView updateStudent(@PathVariable(name = "id") long id) {
+        ModelAndView mav = new ModelAndView("editBook");
+        Book book = bookRepo.findById(id).get();
+        mav.addObject("book", book);
+        return mav;
+    }
+
+
+    //------------------Method to Delete the Book--------------
+    @GetMapping("/delete")
+    public String removeStudent(@RequestParam(name="id", required=true) long id) {
+        bookRepo.deleteById(id);
+        return "redirect:/";
+    }
+
 }
