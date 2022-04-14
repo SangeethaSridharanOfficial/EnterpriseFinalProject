@@ -83,22 +83,26 @@
                                             @RequestParam("sortField") String sortField,
                                             @RequestParam("sortDirection") String sortDirection,
                                             Model model) {
+
+                    System.out.println(" " + pageNo+" " + sortField+" " +sortDirection);
                     int pageSize = 5;
-                    Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+                    Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name().toString()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+                    System.out.println(sort);
                     Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
                     Page<Book> page = bookRepo.findAll(pageable);
                     List<Book> books = page.getContent();
+                    System.out.println(books);
 
                     model.addAttribute("currentPage", pageNo);
                     model.addAttribute("totalPages", page.getTotalPages());
                     model.addAttribute("totalItems", page.getTotalElements());
 
                     model.addAttribute("sortField", sortField);
-                    model.addAttribute("sortDir", sortDirection);
+                    model.addAttribute("sortDirection", sortDirection);
                     model.addAttribute("reverseSortDir", sortDirection.equals("asc") ? "desc" : "asc");
 
                     model.addAttribute("books", books);
-                    return "";
+                    return "index";
                 }
             }
 
