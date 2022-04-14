@@ -34,27 +34,27 @@
         <table border="0" cellpadding="10">
             <tr>
                 <td>Book Name:</td>
-                <td><input type="text" th:field="*{name}" /></td>
+                <td><input type="text" th:field="*{name}" required/></td>
             </tr>
             <tr>
                 <td>Author:</td>
-                <td><input type="text" th:field="*{author}" /></td>
+                <td><input type="text" th:field="*{author}" required/></td>
             </tr>
             <tr>
                 <td>Price:</td>
-                <td><input type="number" th:field="*{price}" /></td>
+                <td><input type="number" th:field="*{price}" required/></td>
             </tr>
             <tr>
                 <td>Description:</td>
-                <td><input type="text" th:field="*{description}" /></td>
+                <td><input type="text" th:field="*{description}" required/></td>
             </tr>
             <tr>
                 <td>No Of Copies:</td>
-                <td><input type="number" th:field="*{no_of_copies}" /></td>
+                <td><input type="number" th:field="*{no_of_copies}" required/></td>
             </tr>
             <tr>
                 <td>Category:</td>
-                <td><input type="text" th:field="*{category}" /></td>
+                <td><input type="text" th:field="*{category}" required /></td>
             </tr>
             <input type="hidden" name="status" th:value="available"/>
             <tr>

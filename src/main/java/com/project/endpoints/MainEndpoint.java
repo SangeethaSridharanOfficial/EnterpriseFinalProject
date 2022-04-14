@@ -5,6 +5,7 @@ import com.project.entities.User;
 import com.project.repository.BookRepo;
 import com.project.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,7 @@ public class MainEndpoint {
     public String home(Model model){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepo.findByEmail(auth.getName());
-
-        if (user == null){
+        if (auth == null || auth instanceof AnonymousAuthenticationToken || user == null) {
             return "login";
         }
 

