@@ -41,7 +41,7 @@ public class MainEndpoint {
                 e.printStackTrace();
             }
         }
-        return "redirect:/login";
+        return "login";
     }
 
     @GetMapping(path = {"/", "/search"})
@@ -51,7 +51,7 @@ public class MainEndpoint {
         User user = userRepo.findByEmail(auth.getName());
 
         if (auth == null || auth instanceof AnonymousAuthenticationToken || user == null) {
-            return "redirect:/login";
+            return "redirect:/";
         }
         List<Book> books;
         if (keyword != null) {
