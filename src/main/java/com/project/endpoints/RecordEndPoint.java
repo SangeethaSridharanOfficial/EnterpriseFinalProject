@@ -34,24 +34,27 @@ public class RecordEndPoint {
 
     @GetMapping("/summary/user")
     public String showUserSummary(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userRepo.findByEmail(auth.getName());
+        try{
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userRepo.findByEmail(auth.getName());
 
-        List<Record> recordList = recordRepo.findByUserId(user.getId());
-        List<HashMap<String, Object>> result = new ArrayList<>();
-        for(Record record: recordList){
-            Book book = bookRepo.findById(record.getBookId()).get();
-            HashMap<String, Object> summary = new HashMap<>();
-            summary.put("id", record.getId());
-            summary.put("name", book.getName());
-            summary.put("borrowed", record.getBorrowed());
-            summary.put("returned", record.getReturned());
-            summary.put("due", record.getDue());
-            result.add(summary);
+            List<Record> recordList = recordRepo.findByUserId(user.getId());
+            List<HashMap<String, Object>> result = new ArrayList<>();
+            for(Record record: recordList){
+                Book book = bookRepo.findById(record.getBookId()).get();
+                HashMap<String, Object> summary = new HashMap<>();
+                summary.put("id", record.getId());
+                summary.put("name", book.getName());
+                summary.put("borrowed", record.getBorrowed());
+                summary.put("returned", record.getReturned());
+                summary.put("due", record.getDue());
+                result.add(summary);
+            }
+
+            model.addAttribute("record", result);
+        }catch (Exception e){
+            System.out.println("Error " + e);
         }
-
-        model.addAttribute("record", result);
-
         return "userRecord";
     }
 
