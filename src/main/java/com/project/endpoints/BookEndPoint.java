@@ -18,8 +18,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/books")
 public class BookEndPoint {
@@ -45,7 +43,7 @@ public class BookEndPoint {
 
     //---------------Method to Update the Book------------
     @GetMapping(value ="/edit/{id}")
-    public ModelAndView updateStudent(@PathVariable(name = "id") long id) {
+    public ModelAndView updateBook(@PathVariable(name = "id") long id) {
         ModelAndView mav = new ModelAndView("editBook");
         Book book = bookRepo.findById(id).get();
         mav.addObject("book", book);
@@ -55,11 +53,8 @@ public class BookEndPoint {
 
     //------------------Method to Delete the Book--------------
     @GetMapping("/delete")
-    public String removeStudent(@RequestParam(name="id", required=true) long id) {
+    public String deleteBook(@RequestParam(name="id", required=true) long id) {
         bookRepo.deleteById(id);
         return "redirect:/";
     }
-
-
-
 }

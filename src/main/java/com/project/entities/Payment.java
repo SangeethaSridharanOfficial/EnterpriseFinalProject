@@ -19,5 +19,9 @@ public class Payment {
 
     private double amount;
     private Date transaction_date;
-    private long record_id;
+    private String cardHolderName;
+    private long userId;
+    private long bookId;
+    private String cardNo;
+    private String cvv;
 }

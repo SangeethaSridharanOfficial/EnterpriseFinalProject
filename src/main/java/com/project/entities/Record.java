@@ -20,7 +20,7 @@ public class Record {
 
     private Date borrowed;
     private Date due;
-    private long book_id;
-    private long user_id;
+    private long bookId;
+    private long userId;
     private Date returned;
 }

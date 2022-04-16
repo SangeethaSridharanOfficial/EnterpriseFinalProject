@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -31,18 +33,25 @@ public class MainEndpoint {
     BookRepo bookRepo;
 
     @GetMapping("/login")
-    public String login() {
-        return "login";
+    public String login(HttpServletRequest request) {
+        if(request.getQueryString() != null && request.getQueryString().equals("logout")){
+            try {
+                request.logout();
+            } catch (ServletException e) {
+                e.printStackTrace();
+            }
+        }
+        return "redirect:/login";
     }
 
     @GetMapping(path = {"/", "/search"})
     public String home(Model model,
                        String keyword) {
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepo.findByEmail(auth.getName());
+
         if (auth == null || auth instanceof AnonymousAuthenticationToken || user == null) {
-            return "login";
+            return "redirect:/login";
         }
         List<Book> books;
         if (keyword != null) {
@@ -66,12 +75,21 @@ public class MainEndpoint {
                                 Model model) {
 
         System.out.println(" " + pageNo+" " + sortField+" " +sortDirection);
+        List<Book> books = null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepo.findByEmail(auth.getName());
+        model.addAttribute("role", user.getRole());
+        if(sortField.equals("no_of_copies")){
+            books = bookRepo.findAll();
+            model.addAttribute("books", books);
+            return "index";
+        }
         int pageSize = 5;
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name().toString()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         System.out.println(sort);
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         Page<Book> page = bookRepo.findAll(pageable);
-        List<Book> books = page.getContent();
+        books = page.getContent();
         System.out.println(books);
 
         model.addAttribute("currentPage", pageNo);
@@ -81,8 +99,8 @@ public class MainEndpoint {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDir", sortDirection.equals("asc") ? "desc" : "asc");
-
         model.addAttribute("books", books);
         return "index";
     }
+
 }
