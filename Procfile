@@ -1,0 +1,1 @@
+web: java -jar build/libs/libraryManagement-1.0.jar
