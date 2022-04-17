@@ -45,7 +45,7 @@
         <form th:action="@{/search}" method="get">
             <input type="text" name="keyword" th:value="${keyword}"  placeholder="Find by Name or Author" size="50" >
             <button type="submit" class="btn btn-info" >Search</button>
-            <button type="submit" class="btn btn-info" >Reset</button>
+            <button type="submit" class="btn btn-info" name="reset">Reset</button>
         </form>
         </br>
     </div>

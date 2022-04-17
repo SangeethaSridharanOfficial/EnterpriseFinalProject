@@ -67,6 +67,11 @@ public class MainEndpoint {
         return "index";
     }
 
+    @GetMapping(value = "/search", params = "reset")
+    public String resetPage(){
+        return "redirect:/";
+    }
+
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo,
                                 @RequestParam("sortField") String sortField,
