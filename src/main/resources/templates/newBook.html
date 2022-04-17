@@ -15,9 +15,14 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link" href="#">About</a>
-                    <a class="nav-link" href="#">Pricing</a>
+                <div class="navbar-nav" th:switch="${role}">
+                    <nav th:case="admin" class="nav">
+                        <a class="nav-link" th:href="@{/books/newBook}">Add Books</a>
+                        <a class="nav-link" th:href="@{/records/summary/admin}">Orders Summary</a>
+                    </nav>
+                    <nav th:case="user" class="nav">
+                        <a class="nav-link" th:href="@{/records/summary/user}">Orders Summary</a>
+                    </nav>
                 </div>
                 <div class="navbar-nav ml-auto">
                     <span class="navbar-text " sec:authentication="principal.username"> Unknown User</span>
