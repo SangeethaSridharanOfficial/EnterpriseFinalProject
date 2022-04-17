@@ -37,7 +37,7 @@ public class RecordEndPoint {
         try{
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userRepo.findByEmail(auth.getName());
-
+            model.addAttribute("role", user.getRole());
             List<Record> recordList = recordRepo.findByUserId(user.getId());
             List<HashMap<String, Object>> result = new ArrayList<>();
             for(Record record: recordList){
@@ -64,6 +64,10 @@ public class RecordEndPoint {
         List<Record> recordList = recordRepo.findAll();
         List<HashMap<String, Object>> result = new ArrayList<>();
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User userObj = userRepo.findByEmail(auth.getName());
+        model.addAttribute("role", userObj.getRole());
+
         for(Record record: recordList){
             Book book = bookRepo.findById(record.getBookId()).get();
             User user = userRepo.findById(record.getUserId()).get();
@@ -84,9 +88,12 @@ public class RecordEndPoint {
     }
 
     @GetMapping("/return")
-    public String returnBook(@RequestParam(name = "id", required = true) long id){
+    public String returnBook(@RequestParam(name = "id", required = true) long id, Model model){
         Record record = recordRepo.findById(id).get();
         Book book = bookRepo.findById(record.getBookId()).get();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepo.findByEmail(auth.getName());
+        model.addAttribute("role", user.getRole());
         if(book != null){
             bookRepo.updateNoOfCopies(book.getId(),book.getNo_of_copies() + 1);
         }

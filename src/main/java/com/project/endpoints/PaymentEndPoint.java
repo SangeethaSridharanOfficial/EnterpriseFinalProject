@@ -39,6 +39,9 @@ public class PaymentEndPoint {
     public String buyBook(@RequestParam(name="id", required = true) long id, Model model){
         Book book = bookRepo.findById(id).get();
         Payment payment = new Payment();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepo.findByEmail(auth.getName());
+        model.addAttribute("role", user.getRole());
         model.addAttribute("payment", payment);
         model.addAttribute("id", id);
         model.addAttribute("book", book);
@@ -50,7 +53,7 @@ public class PaymentEndPoint {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepo.findByEmail(auth.getName());
         Book book = bookRepo.findById(payment.getBookId()).get();
-
+        model.addAttribute("role", user.getRole());
 
         int count = bookRepo.updateNoOfCopies(payment.getBookId(), book.getNo_of_copies() - 1);
         System.out.println("count " + count);
