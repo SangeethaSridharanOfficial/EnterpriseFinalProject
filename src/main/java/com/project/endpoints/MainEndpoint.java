@@ -60,7 +60,6 @@ public class MainEndpoint {
             model.addAttribute("books", books);
         }
         else {
-            books = bookRepo.findAll();
             model.addAttribute("role", user.getRole());
             findPaginated(1,"name", "asc", model);
         }
